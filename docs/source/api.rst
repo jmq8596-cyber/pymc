@@ -1,4 +1,23 @@
-.. _api:
+..import pymc as pm
+import numpy as np
+
+# delta = TTNS - Basal (array con datos individuales)
+delta = np.array([...])  
+
+with pm.Model() as model:
+
+    # Prior débilmente informativo
+    mu = pm.Normal("mu", mu=0, sigma=50)
+    sigma = pm.HalfNormal("sigma", sigma=30)
+
+    # Likelihood
+    obs = pm.Normal("obs", mu=mu, sigma=sigma, observed=delta)
+
+    # Sampling
+    trace = pm.sample(2000, tune=1000, target_accept=0.9)
+
+pm.summary(trace)
+ _api:
 
 ***
 API
